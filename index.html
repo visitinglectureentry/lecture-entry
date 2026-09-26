@@ -695,7 +695,7 @@ function remTable(list, label){
 function detailRows(data){
   return data.map(function(e){var d=e.type==='Extra'?('Extra: '+(e.extra_reason||'')):e.type==='Exchanged'?('Exch w/ '+(e.exch_with||'')):'-';return[e.id,fmtDate(e.date),e.lecturer,e.mode,e.subject,e.cls,e.batch||'-',e.from+'–'+e.to,e.type,e.remarks||'-',d];});
 }
-var DETAIL_HEAD=['Sr.','Date','Lecturer','Mode','Subject','Class','Batch','Time','Type','Students','Details'];
+var DETAIL_HEAD=['Sr.','Date','Lecturer','Mode','Subject','Class','Batch','Time','Type','Students Present','Details'];
 
 $('rep_type').onchange=function(){
   $('rep_dept_field').style.display=this.value==='deptwise'?'flex':'none';
