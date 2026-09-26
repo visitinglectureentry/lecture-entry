@@ -171,7 +171,7 @@
         <div class="seg" id="seg_batch"><button data-v="A">A</button><button data-v="B">B</button><button data-v="C">C</button></div></div>
       <div class="field"><label>Date of Conduction <span class="req">*</span></label><input type="text" id="f_date_show" disabled style="background:#efece2;color:#3b3b3b"><input type="hidden" id="f_date"><span class="hint">Automatically set to today's date.</span></div>
       <div class="field"><label>Lecture Type <span class="req">*</span></label>
-        <select id="f_type"><option value="Regular">Regular lecture</option><option value="Extra">Extra lecture (with permission of Head)</option><option value="Exchanged">Exchanged lecture</option></select></div>
+        <select id="f_type"><option value="Regular">Regular lecture</option><option value="Extra">Extra lecture (with permission)</option><option value="Exchanged">Exchanged lecture</option></select></div>
       <div class="field"><label>Time From <span class="req">*</span></label>
         <div class="row-inline"><select id="f_from_h" style="width:auto"></select><select id="f_from_m" style="width:auto"></select><select id="f_from_ap" style="width:auto"><option>AM</option><option>PM</option></select></div></div>
       <div class="field"><label>Time To <span class="req">*</span></label>
@@ -181,8 +181,8 @@
       <strong style="color:var(--maroon)">Extra Lecture — Permission of Head</strong>
       <div class="grid" style="margin-top:10px">
         <div class="field"><label>Reason for extra lecture <span class="req">*</span></label><input type="text" id="f_extra_reason"></div>
-        <div class="field"><label>Permission granted by (Head) <span class="req">*</span></label><input type="text" id="f_extra_head"></div>
-        <div class="field full"><label>Attach Permission Letter</label><input type="file" id="f_extra_file" accept="image/*,.pdf"><span class="file-preview" id="f_extra_filename"></span><span class="hint">Optional — stored in the Sheet with the record if attached.</span></div>
+        <div class="field"><label>Permission by Principal <span class="req">*</span></label><input type="text" id="f_extra_head"></div>
+        <div class="field full"><label>Don't attach Permission Letter</label><input type="file" id="f_extra_file" accept="image/*,.pdf"><span class="file-preview" id="f_extra_filename"></span><span class="hint">Optional — Don't attach letter.</span></div>
       </div>
     </div>
     <div class="conditional exch" id="block_exch" style="display:none">
