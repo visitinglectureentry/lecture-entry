@@ -171,18 +171,18 @@
         <div class="seg" id="seg_batch"><button data-v="A">A</button><button data-v="B">B</button><button data-v="C">C</button></div></div>
       <div class="field"><label>Date of Conduction <span class="req">*</span></label><input type="text" id="f_date_show" disabled style="background:#efece2;color:#3b3b3b"><input type="hidden" id="f_date"><span class="hint">Automatically set to today's date.</span></div>
       <div class="field"><label>Lecture Type <span class="req">*</span></label>
-        <select id="f_type"><option value="Regular">Regular lecture</option><option value="Extra">Extra lecture (with permission)</option><option value="Exchanged">Exchanged lecture</option></select></div>
+        <select id="f_type"><option value="Regular">Regular lecture</option><option value="Extra">Extra lecture (with permission of Head)</option><option value="Exchanged">Exchanged lecture</option></select></div>
       <div class="field"><label>Time From <span class="req">*</span></label>
         <div class="row-inline"><select id="f_from_h" style="width:auto"></select><select id="f_from_m" style="width:auto"></select><select id="f_from_ap" style="width:auto"><option>AM</option><option>PM</option></select></div></div>
       <div class="field"><label>Time To <span class="req">*</span></label>
         <div class="row-inline"><select id="f_to_h" style="width:auto"></select><select id="f_to_m" style="width:auto"></select><select id="f_to_ap" style="width:auto"><option>AM</option><option>PM</option></select></div></div>
     </div>
     <div class="conditional" id="block_extra" style="display:none">
-      <strong style="color:var(--maroon)">Extra Lecture—Permission</strong>
+      <strong style="color:var(--maroon)">Extra Lecture — Permission of Head</strong>
       <div class="grid" style="margin-top:10px">
         <div class="field"><label>Reason for extra lecture <span class="req">*</span></label><input type="text" id="f_extra_reason"></div>
-        <div class="field"><label>Permission by Principal <span class="req">*</span></label><input type="text" id="f_extra_head"></div>
-       <div class="field full"><label>Don't attach Permission Letter</label><input type="file" id="f_extra_file" accept="image/*,.pdf"><span class="file-preview" id="f_extra_filename"></span><span class="hint">Optional — Don't attach letter.</span></div>
+        <div class="field"><label>Permission by Principal <span class="req">*</span></label>
+          <select id="f_extra_head"><option value="">— select —</option><option value="Yes">Yes</option><option value="No">No</option></select></div>
       </div>
     </div>
     <div class="conditional exch" id="block_exch" style="display:none">
@@ -547,8 +547,6 @@ for(var sm=0;sm<segMode.length;sm++)segMode[sm].onclick=function(){
 var segBatch=$('seg_batch').querySelectorAll('button');
 for(var sb=0;sb<segBatch.length;sb++)segBatch[sb].onclick=function(){batch=this.dataset.v;for(var i=0;i<segBatch.length;i++)segBatch[i].classList.toggle('on',segBatch[i]===this);};
 $('f_type').onchange=function(){$('block_extra').style.display=this.value==='Extra'?'block':'none';$('block_exch').style.display=this.value==='Exchanged'?'block':'none';};
-var extraFileData=null;
-$('f_extra_file').onchange=function(){var f=this.files[0];if(!f){extraFileData=null;$('f_extra_filename').textContent='';return;}var r=new FileReader();r.onload=function(){extraFileData=r.result;$('f_extra_filename').textContent='Attached: '+f.name;};r.readAsDataURL(f);};
 
 /* ---------- SIGNATURE PADS ---------- */
 var pads={};
@@ -571,7 +569,7 @@ $('btn_save').onclick=function(){
   var e={dept:activeDept(),mode:mode,batch:mode==='Practical'?batch:'',
     lecturer:session.role==='lecturer'?session.name:$('f_lecturer').value,subject:$('f_subject').value,
     cls:$('f_class').value,date:$('f_date').value,from:timeVal('from'),to:timeVal('to'),type:$('f_type').value,
-    extra_reason:$('f_extra_reason').value.trim(),extra_head:$('f_extra_head').value.trim(),letterB64:extraFileData||'',
+    extra_reason:$('f_extra_reason').value.trim(),extra_head:$('f_extra_head').value,
     exch_with:$('f_exch_with').value.trim(),exch_date:$('f_exch_date').value,exch_reason:$('f_exch_reason').value.trim(),
     remarks:$('f_students').value.trim(),sign_lec:pads.lec.data(),sign_head:pads.head.data(),by:session.name||'Admin',
     token:session.token,
@@ -586,7 +584,7 @@ $('btn_save').onclick=function(){
   if(e.remarks===''||isNaN(Number(e.remarks)))miss.push('Number of Students Present');
   if(e.type==='Extra'){
     if(!e.extra_reason)miss.push('Reason for extra lecture');
-    if(!e.extra_head)miss.push('Permission granted by (Head)');
+    if(!e.extra_head)miss.push('Permission by Principal');
   }
   if(e.type==='Exchanged'){
     if(!e.exch_with)miss.push('Exchanged with (lecturer)');
@@ -605,7 +603,6 @@ function clearForm(){
   ['f_from_h','f_to_h','f_from_m','f_to_m','f_from_ap','f_to_ap'].forEach(function(i){$(i).selectedIndex=0;});
   setToday();
   $('f_class').value='';refreshSubjects();$('f_type').value='Regular';$('f_type').onchange();
-  extraFileData=null;$('f_extra_file').value='';$('f_extra_filename').textContent='';
   pads.lec.clear();pads.head.clear();
   batch='';for(var i=0;i<segBatch.length;i++)segBatch[i].classList.remove('on');
   if(session.role!=='lecturer')$('f_lecturer').value='';
